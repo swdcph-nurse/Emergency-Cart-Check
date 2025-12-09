@@ -991,7 +991,7 @@
                                     
                                     <div className="inline-flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-sm text-slate-600 mb-8 border border-slate-100">
                                         <SimpleIcon name="RotateCcw" className="w-4 h-4 text-slate-400"/>
-                                        <span>ReCheck Stock: <span className="font-semibold text-slate-800">{lastStockCheck ? formatDate(new Date(lastStockCheck.getTime() + 14 * 24 * 60 * 60 * 1000)) : '-'}</span></span>
+                                        <span>กำหนด ReCheck Stock ครั้งถัดไป: วันที่ <span className="font-semibold text-slate-800">{lastStockCheck ? formatDate(new Date(lastStockCheck.getTime() + 14 * 24 * 60 * 60 * 1000)) : '-'}</span></span>
                                     </div>
 
                                     <button onClick={() => setShowTypeModal(true)} className="w-full bg-slate-900 hover:bg-slate-800 text-white py-4 rounded-2xl shadow-xl shadow-slate-200 flex items-center justify-center gap-3 text-lg font-semibold transition-all active:scale-[0.98]">
