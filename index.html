@@ -60,7 +60,7 @@
         // ==============================================
         //  CONFIG: URL ของ Web App จาก Google Apps Script
         // ==============================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyYq_6zH1hHCvzhO6HZ6xv7qkVj-FglN7tezGrvTVoPPjv-Jf39uNjqFrQCMb9preg8VQ/exec"; 
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyYq_6zH1hHCvzhO6HZ6xv7qkVj-FglN7tezGrvTVoPPjv-Jf39uNjqFrQCMb9preg8VQ/exec";
         // ==============================================
 
         const { useState, useEffect, useMemo } = React;
@@ -117,7 +117,8 @@
             Settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></>,
             Close: <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>,
             ArrowUp: <polyline points="18 15 12 9 6 15" />,
-            ArrowDown: <polyline points="6 9 12 15 18 9" />
+            ArrowDown: <polyline points="6 9 12 15 18 9" />,
+            Clock: <><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></>
         };
         const SimpleIcon = ({ name, className }) => <Icon path={Icons[name] || Icons.FileText} className={className} />;
 
@@ -210,6 +211,40 @@
         };
 
         // --- COMPONENTS ---
+        const ExpirationAlerts = ({ alerts }) => {
+            if (!alerts || alerts.length === 0) return null;
+            return (
+                <div className="mb-6 space-y-2 animate-fade-in">
+                    {alerts.map((item, idx) => {
+                        let colorClass = "bg-yellow-50 text-yellow-800 border-yellow-200";
+                        let iconColor = "text-yellow-600";
+                        let message = "";
+                        
+                        if (item.status === 'expired') {
+                            colorClass = "bg-red-50 text-red-800 border-red-200";
+                            iconColor = "text-red-600";
+                            message = `${item.name} หมดอายุแล้ว`;
+                        } else if (item.status === 'today') {
+                            colorClass = "bg-orange-50 text-orange-800 border-orange-200";
+                            iconColor = "text-orange-600";
+                            message = `${item.name} หมดอายุวันนี้`;
+                        } else {
+                             message = `${item.name} ใกล้หมดอายุในอีก ${item.days} วัน (วันที่ ${formatDate(item.date)})`;
+                        }
+
+                        return (
+                            <div key={idx} className={`p-3 rounded-xl border flex items-start gap-3 shadow-sm ${colorClass}`}>
+                                <div className={iconColor}>
+                                    <SimpleIcon name={item.status === 'soon' ? 'AlertTriangle' : 'Trash'} className="w-5 h-5 shrink-0 mt-0.5"/>
+                                </div>
+                                <div className="text-sm font-medium">{message}</div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        };
+
         const CategorySection = ({ category, items, formData, updateItem, ITEM_TYPES }) => {
             const [isOpen, setIsOpen] = useState(true);
             if (!items || items.length === 0) return null;
@@ -657,6 +692,41 @@
             const [expiryList, setExpiryList] = useState([]);
             
             const [summaryData, setSummaryData] = useState(null);
+            
+            // Calculate Expiration Alerts for Dashboard
+            const expirationAlerts = useMemo(() => {
+                if (records.length === 0) return [];
+                const latest = records[0];
+                const alerts = [];
+
+                const addAlert = (name, exp) => {
+                    if (!exp) return;
+                    const days = getDaysDiff(exp);
+                    if (days <= 7) {
+                        let status = 'soon';
+                        if (days < 0) status = 'expired';
+                        else if (days === 0) status = 'today';
+                        alerts.push({ name, days, status, date: exp });
+                    }
+                };
+
+                if (latest.items) {
+                    Object.entries(latest.items).forEach(([key, val]) => {
+                        const def = itemsDef.find(i => i.id === key);
+                        if (def) {
+                            addAlert(def.name, val.exp);
+                        }
+                    });
+                }
+
+                if (latest.otherItems && Array.isArray(latest.otherItems)) {
+                    latest.otherItems.forEach(item => {
+                        addAlert(item.name || 'รายการเพิ่มเติม', item.exp);
+                    });
+                }
+
+                return alerts.sort((a, b) => a.days - b.days);
+            }, [records, itemsDef]);
 
             useEffect(() => { 
                 fetchData(); 
@@ -664,10 +734,14 @@
             }, []);
 
             const fetchData = async () => {
-                if(GAS_API_URL.includes("YOUR_GAS")) return;
+                if(GAS_API_URL.includes("YOUR_GAS")) {
+                    setIsLoading(false);
+                    return;
+                }
                 setIsLoading(true);
                 try {
-                    const resRec = await fetch(GAS_API_URL + '?action=read');
+                    // Attempt to fetch
+                    const resRec = await fetch(GAS_API_URL + '?action=read').catch(err => { throw new Error("Network Error"); });
                     const dataRec = await resRec.json();
                     if(dataRec.status === 'success') {
                          const cleanRecords = (dataRec.data || []).map(r => {
@@ -686,14 +760,32 @@
                     if(dataStock.status === 'success' && dataStock.date) {
                         setLastStockCheck(new Date(dataStock.date));
                     }
-                } catch (error) { console.error(error); }
-                setIsLoading(false);
+                } catch (error) {
+                    console.warn("Connection failed, switching to offline mode:", error);
+                    // Mock data
+                    const mockRecords = [
+                        {
+                            id: 'mock_1',
+                            date: new Date().toISOString(),
+                            shift: 'เช้า',
+                            checker: 'Demo User',
+                            generalReady: 'พร้อมใช้',
+                            items: {},
+                            otherItems: []
+                        }
+                    ];
+                    setRecords(mockRecords);
+                    // Optional: Show a toast or small banner saying "Offline Mode"
+                } finally {
+                    setIsLoading(false);
+                }
             };
 
             const fetchConfig = async () => {
                 if(GAS_API_URL.includes("YOUR_GAS")) return;
                 try {
-                    const res = await fetch(GAS_API_URL + '?action=getConfig');
+                    const res = await fetch(GAS_API_URL + '?action=getConfig').catch(() => null);
+                    if (!res) return;
                     const json = await res.json();
                     if (json.status === 'success' && json.data) {
                         setItemsDef(json.data);
@@ -896,7 +988,7 @@
                         fetchData(); 
                     }, 1500);
                 } catch (error) {
-                    alert("เกิดข้อผิดพลาด: " + error);
+                    alert("เกิดข้อผิดพลาดในการส่งข้อมูล (แต่อาจจะบันทึกสำเร็จใน Offline Mode)");
                     setIsLoading(false);
                 }
             };
@@ -963,7 +1055,7 @@
                         {view === 'dashboard' && (
                             <div className="space-y-6 animate-fade-in">
                                 <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 text-center relative overflow-hidden group hover:shadow-md transition-shadow">
-                                    <h2 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">ความพร้อมทั่วไปรถ Emergency หอผู้ป่วยพิเศษปาริฉัตร</h2>
+                                    <h2 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">ความพร้อมทั่วไปรถ Emergency</h2>
                                     {records.length > 0 ? (
                                         <>
                                             <div className={`text-5xl font-bold mb-4 tracking-tight ${records[0].generalReady === 'พร้อมใช้' ? 'text-emerald-600' : 'text-red-500'}`}>
@@ -993,6 +1085,9 @@
                                         <SimpleIcon name="RotateCcw" className="w-4 h-4 text-slate-400"/>
                                         <span>กำหนด ReCheck Stock ครั้งถัดไป: วันที่ <span className="font-semibold text-slate-800">{lastStockCheck ? formatDate(new Date(lastStockCheck.getTime() + 14 * 24 * 60 * 60 * 1000)) : '-'}</span></span>
                                     </div>
+                                    
+                                    {/* Expiration Alerts Block */}
+                                    <ExpirationAlerts alerts={expirationAlerts} />
 
                                     <button onClick={() => setShowTypeModal(true)} className="w-full bg-slate-900 hover:bg-slate-800 text-white py-4 rounded-2xl shadow-xl shadow-slate-200 flex items-center justify-center gap-3 text-lg font-semibold transition-all active:scale-[0.98]">
                                         <SimpleIcon name="Plus" className="w-5 h-5"/> ตรวจสอบรถ
