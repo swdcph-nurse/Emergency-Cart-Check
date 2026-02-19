@@ -649,9 +649,15 @@
                         </div>
                     </Modal>
 
-                    <Modal isOpen={showCopyWarning} title="🚨 ข้อควรระวังในการ Copy" onClose={() => setShowCopyWarning(false)}>
-                        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-200 mb-8 text-[12px] font-black text-yellow-900 leading-tight">ตรวจสอบ Sticker Visual Control และวันหมดอายุยา (CPR/ACS Box) ใหม่อย่างละเอียดทุกครั้งก่อนบันทึก</div>
-                        <button onClick={() => {setShowCopyWarning(false); setView('form');}} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm active:scale-95 transition-all">ยืนยันข้อมูลและเริ่มตรวจ</button>
+                    <Modal isOpen={showCopyWarning} title="🚨 ข้อควรระวัง กรุณาตรวจสอบดังนี้" onClose={() => setShowCopyWarning(false)}>
+                        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-200 mb-8 shadow-inner">
+                            <ul className="space-y-4 text-[12px] font-black text-yellow-900 leading-tight">
+                                <li className="flex gap-4"><div className="bg-yellow-200 w-6 h-6 rounded-full flex items-center justify-center shrink-0">1</div> Sticker Visual Control ต้องอยู่ในสภาพสมบูรณ์ ไม่มีการเปิดทิ้งไว้</li>
+                                <li className="flex gap-4"><div className="bg-yellow-200 w-6 h-6 rounded-full flex items-center justify-center shrink-0">2</div> ตรวจสอบวันหมดอายุยา (CPR/ACS Box) ใหม่อีกครั้งเสมอ</li>
+                                <li className="flex gap-4"><div className="bg-yellow-200 w-6 h-6 rounded-full flex items-center justify-center shrink-0">3</div> อุปกรณ์ส่องสว่าง (ไฟฉาย/Laryngoscope) ต้องพร้อมทำงาน</li>
+                            </ul>
+                        </div>
+                        <button onClick={() => {setShowCopyWarning(false); setView('form');}} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm shadow-2xl active:scale-95 transition-all">ยืนยันข้อมูลและเริ่มตรวจ</button>
                     </Modal>
 
                     <Modal isOpen={showSaveSuccessModal} title="✅ บันทึกสำเร็จ" onClose={() => {setShowSaveSuccessModal(false); setView('dashboard');}}><div className="text-center py-5"><div className="text-emerald-500 mb-6 flex justify-center"><div className="p-6 bg-emerald-50 rounded-full shadow-inner animate-scale-up"><SimpleIcon name="CheckCircle" className="w-14 h-14"/></div></div><h3 className="font-black text-2xl mb-2 text-slate-800 tracking-tighter">ส่งข้อมูลเรียบร้อยแล้ว</h3><button onClick={() => {setShowSaveSuccessModal(false); setView('dashboard');}} className="w-full bg-slate-900 text-white py-4.5 rounded-2xl font-black text-sm active:scale-95 mt-8 shadow-xl transition-all">กลับสู่หน้าหลัก</button></div></Modal>
