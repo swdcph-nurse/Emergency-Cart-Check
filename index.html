@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Cart Smart Check - ตึกพิเศษปาริฉัตร</title>
+    <title>Emergency Cart Smart Check - หอสงฆ์อาพาธ</title>
     
     <!-- FAVICON -->
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYfBIvo5I6imKO2PO2Q685aje7a48lvI5rrQ&s">
@@ -53,7 +53,7 @@
             display: flex; align-items: center; justify-content: center; margin-top: 2px; position: relative;
         }
         @media (min-width: 768px) { .shift-dot { height: 22px; font-size: 10px; } }
-        .recheck-star { position: absolute; top: -1px; right: 0px; font-size: 10px; color: #fbbf24; filter: drop-shadow(0 0 1px rgba(0,0,0,0.5)); }
+        .recheck-star { position: absolute; top: -1px; right: 0px; font-size: 7px; color: #fbbf24; filter: drop-shadow(0 0 1px rgba(0,0,0,0.5)); }
     </style>
 </head>
 <body class="bg-[#F0F4F9] text-slate-800 min-h-screen"> 
@@ -61,8 +61,8 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // --- CONFIG --- (ปาริฉัตร)
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyYq_6zH1hHCvzhO6HZ6xv7qkVj-FglN7tezGrvTVoPPjv-Jf39uNjqFrQCMb9preg8VQ/exec";
+        // --- CONFIG (หอสงฆ์อาพาธ) ---
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwNpFNcLm0iU6vTF0DM7UwONFl3NGXmySuR1jXh-mWyZjbtqf_BTkTpjOYs3NXBzRU/exec";
 
         const { useState, useEffect, useMemo } = React;
         
@@ -83,17 +83,38 @@
 
         const DEFAULT_ITEMS = [
             { id: 'cardiac_board', name: 'Cardiac board', required: 1, type: ITEM_TYPES.QTY_STATUS, category: 'ชั้นบน' },
+            { id: 'oto_opthalmo', name: 'เครื่องส่องหู คอ', required: 1, type: ITEM_TYPES.QTY_STATUS, category: 'ชั้นบน' },
             { id: 'cpr_box', name: 'กล่องยา CPR', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ชั้นบน' },
             { id: 'acs_box', name: 'กล่องยา ACS', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ชั้นบน' },
             { id: 'laryngoscope', name: 'Laryngoscope', required: 1, type: ITEM_TYPES.QTY_STATUS, category: 'ชั้นบน' },
             { id: 'flashlight', name: 'ไฟฉาย', required: 1, type: ITEM_TYPES.QTY_STATUS, category: 'ชั้นบน' },
-            { id: 'ky_jelly', name: 'KY Jelly', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
-            { id: 'ett_5', name: 'ETT NO. 5', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'mask_4', name: 'Mask NO.4', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'mask_5', name: 'Mask NO.5', required: 3, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'airway_2', name: 'Airway NO.2', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'airway_3', name: 'Airway NO.3', required: 3, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'airway_4', name: 'Airway NO.4', required: 3, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'airway_5', name: 'Airway NO.5', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'airway_6', name: 'Airway NO.6', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'syringe_5', name: 'Syringe 5 CC', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'syringe_10', name: 'Syringe 10 CC', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'needle_18', name: 'Needle NO.18', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'needle_23', name: 'Needle NO.23', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'ky_jelly', name: 'KY Jelly', required: 1, type: ITEM_TYPES.CHECK_HAVE, category: 'ลิ้นชักชั้นที่ 1' },
+            { id: 'guide_wire', name: 'Guide wire', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_5', name: 'ETT NO. 5', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_5_5', name: 'ETT NO. 5.5', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_6', name: 'ETT NO. 6', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_6_5', name: 'ETT NO. 6.5', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_7', name: 'ETT NO. 7', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_7_5', name: 'ETT NO. 7.5', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'ett_8', name: 'ETT NO. 8', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'suction_14', name: 'Suction NO.14', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
+            { id: 'suction_16', name: 'Suction NO.16', required: 5, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 2' },
             { id: 'plaster', name: 'พลาสเตอร์ติด Tube', type: ITEM_TYPES.CHECK_HAVE, category: 'ลิ้นชักชั้นที่ 3' },
             { id: 'sterile_gloves', name: 'ถุงมือ Sterile', type: ITEM_TYPES.CHECK_HAVE, category: 'ลิ้นชักชั้นที่ 3' },
             { id: 'gauze', name: 'Gauze', type: ITEM_TYPES.CHECK_HAVE, category: 'ลิ้นชักชั้นที่ 3' },
-            { id: 'tongue_depressor', name: 'ไม้กดลิ้น', required: 2, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ลิ้นชักชั้นที่ 3' },
-            { id: 'ambubag', name: 'Adult ambubag', required: 1, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ตู้ล่างขวา' },
+            { id: 'tongue_depressor', name: 'ไม้กดลิ้น', type: ITEM_TYPES.CHECK_HAVE, category: 'ลิ้นชักชั้นที่ 3' },
+            { id: 'ambubag', name: 'Adult ambubag', required: 3, type: ITEM_TYPES.QTY_EXP_STATUS, category: 'ตู้ล่างขวา' },
             { id: 'general_readiness', name: 'ความพร้อมทั่วไปรถ Emergency', type: ITEM_TYPES.STATUS_ONLY, category: 'General' },
         ];
 
@@ -111,7 +132,8 @@
             Trash: <><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></>,
             Edit: <><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></>,
             Settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></>,
-            AlertTriangle: <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01" />
+            AlertTriangle: <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01" />,
+            Save: <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8" />
         };
 
         const SimpleIcon = ({ name, className = "w-6 h-6", color = "currentColor" }) => (
@@ -125,7 +147,7 @@
                 <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-scale-up ring-1 ring-black/5">
                         <div className="bg-white px-6 py-4 flex justify-between items-center border-b border-gray-100">
-                            <h3 className="text-lg font-black text-slate-800 flex items-center gap-2 tracking-tight">{title}</h3>
+                            <h3 className="text-lg font-black text-slate-800 flex items-center gap-2 tracking-tight uppercase">{title}</h3>
                             <button onClick={onClose} className="text-slate-400 hover:text-slate-600 p-1"><SimpleIcon name="XCircle" className="w-6 h-6"/></button>
                         </div>
                         <div className="p-6 max-h-[85vh] overflow-y-auto">{children}</div>
@@ -142,7 +164,7 @@
                         <div className={`w-1.5 h-1.5 rounded-full ${isReady ? 'bg-emerald-500' : 'bg-red-500'}`}></div> {isReady ? 'พร้อมใช้' : 'ไม่พร้อม'}
                     </span>
                     {isRC && (
-                        <div className="flex items-center gap-1 text-[9px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 shadow-sm animate-fade-in">
+                        <div className="flex items-center gap-1 text-[9px] font-black text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 shadow-sm">
                             <SimpleIcon name="RotateCcw" className="w-2.5 h-2.5"/> ReCheck Stock
                         </div>
                     )}
@@ -245,7 +267,7 @@
                 const dayRecs = monthRecords.filter(r => new Date(r.date).getDate() === day && r.shift.includes(shiftName));
                 if (dayRecs.length === 0) return { status: 'none', isRC: false };
                 const latest = dayRecs.reduce((prev, curr) => (prev.id > curr.id) ? prev : curr);
-                return { status: latest.generalReady === 'พร้อมใช้' ? 'ready' : 'not_ready', isRC: latest.isRecheckStock };
+                return { status: latest.generalReady === 'พร้อมใช้' ? 'ready' : 'not_ready', isRC: latest.isRecheckStock === true || latest.isRecheckStock === 'Yes' };
             };
 
             const renderShift = (day, shiftCode, shiftName) => {
@@ -359,7 +381,7 @@
                                     <div className="bg-slate-50 px-5 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">{cat}</div>
                                     <div className="divide-y divide-slate-50">
                                         {catItems.map(item => (
-                                            <div key={item.id} className="p-4 flex justify-between items-center hover:bg-slate-50/50">
+                                            <div key={item.id} className="p-4 flex justify-between items-center hover:bg-slate-50/50 transition-colors">
                                                 <div className="text-sm font-bold text-slate-700">{item.name} <span className="text-[10px] text-slate-300 ml-1 font-black">({item.required || '0'})</span></div>
                                                 <div className="flex gap-2">
                                                     <button onClick={() => { setEditingId(item.id); setFormData(item); window.scrollTo({top:0, behavior:'smooth'}); }} className="p-2 text-slate-300 hover:text-orange-500 transition-colors"><SimpleIcon name="Edit" className="w-4 h-4"/></button>
@@ -423,9 +445,7 @@
 
                 if (lastStock) {
                     const nextDate = new Date(lastStock); nextDate.setDate(nextDate.getDate() + 14); nextDate.setHours(0,0,0,0);
-                    if (today > nextDate) {
-                        issues.push({ severity: 'high', message: `เลยกำหนด ReCheck Stock ใหญ่มาแล้ว (กำหนดเมื่อ ${formatDate(nextDate)})` });
-                    }
+                    if (today > nextDate) issues.push({ severity: 'high', message: `เลยกำหนด ReCheck Stock ใหญ่มาแล้ว (กำหนดเมื่อ ${formatDate(nextDate)})` });
                 }
 
                 if (recs && recs.length > 0) {
@@ -433,8 +453,7 @@
                     Object.entries(latest.items || {}).forEach(([itemId, val]) => {
                         if (val.exp) {
                             const expDate = new Date(val.exp); expDate.setHours(0,0,0,0);
-                            const diffTime = expDate - today;
-                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                            const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
                             const itemMeta = itemsDef.find(i => i.id === itemId) || { name: itemId };
 
                             if (diffDays < 0) issues.push({ severity: 'critical', message: `รายการ "${itemMeta.name}" หมดอายุแล้ว! (${formatDate(val.exp)})` });
@@ -449,7 +468,6 @@
                 else { setCriticalIssues([]); }
             };
 
-            // คำนวณวันที่ ReCheck และสถานะ Overdue ล่วงหน้าเพื่อใช้ใน UI
             const recheckData = useMemo(() => {
                 if (!lastStockCheck) return { date: null, isOverdue: false };
                 const date = new Date(lastStockCheck.getTime() + 14 * 24 * 60 * 60 * 1000);
@@ -483,10 +501,27 @@
                 const today = new Date().toISOString().split('T')[0];
                 let initialData = { date: today, shift: 'เช้า', checker: localStorage.getItem('last_checker_name') || '', items: {}, isRecheckStock: false };
                 itemsDef.forEach(item => {
-                    if (prevData && prevData.items && prevData.items[item.id] && !isNew) initialData.items[item.id] = JSON.parse(JSON.stringify(prevData.items[item.id]));
-                    else initialData.items[item.id] = { qty: '', exp: '', status: null, note: '', checked: null };
+                    if (prevData && prevData.items && prevData.items[item.id] && !isNew) {
+                        // Copy data and ensure deep copy
+                        initialData.items[item.id] = JSON.parse(JSON.stringify(prevData.items[item.id]));
+                    } else {
+                        initialData.items[item.id] = { qty: '', exp: '', status: null, note: '', checked: null };
+                    }
                 });
                 setFormData(initialData);
+            };
+
+            const updateItem = (id, field, value) => {
+                setFormData(prev => ({ 
+                    ...prev, 
+                    items: { 
+                        ...prev.items, 
+                        [id]: { 
+                            ...(prev.items[id] || {}), 
+                            [field]: value 
+                        } 
+                    } 
+                }));
             };
 
             const onSaveClick = async () => {
@@ -500,14 +535,19 @@
                 } catch (e) { alert("Error"); setIsLoading(false); }
             };
 
-            if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-[#F0F4F9]"><div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin-slow"></div><p className="mt-5 text-[11px] font-black text-slate-400 uppercase tracking-widest leading-loose">กำลังโหลดข้อมูล ตึกพิเศษปาริฉัตร</p></div>;
+            const handleStartCheck = () => {
+                if (criticalIssues.length > 0) setShowCriticalAlert(true);
+                else setShowTypeModal(true);
+            };
+
+            if (isLoading) return <div className="min-h-screen flex flex-col items-center justify-center bg-[#F0F4F9]"><div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin-slow"></div><p className="mt-5 text-[11px] font-black text-slate-400 uppercase tracking-widest leading-loose">กำลังโหลดข้อมูล หอสงฆ์อาพาธ</p></div>;
 
             return (
                 <div className="pb-10 w-full max-w-4xl mx-auto min-h-screen px-2 sm:px-4">
                     <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm rounded-b-3xl mt-2 px-6 py-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYfBIvo5I6imKO2PO2Q685aje7a48lvI5rrQ&s" className="w-10 h-10 rounded-2xl shadow-xl border border-white" />
-                            <div><h1 className="text-xs sm:text-sm font-black text-slate-800 tracking-tight uppercase">Emergency Smart Check</h1><p className="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-0.5">ตึกพิเศษปาริฉัตร</p></div>
+                            <div><h1 className="text-xs sm:text-sm font-black text-slate-800 tracking-tight uppercase">Emergency Smart Check</h1><p className="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-0.5">หอสงฆ์อาพาธ</p></div>
                         </div>
                         <div className="flex gap-1.5 sm:gap-2.5">
                             <button onClick={() => setView('dashboard')} className={`p-2 rounded-xl transition-all ${view==='dashboard'?'bg-teal-50 text-teal-600 shadow-inner':'text-slate-400 hover:bg-slate-50'}`}><SimpleIcon name="History" className="w-5 h-5"/></button>
@@ -520,14 +560,13 @@
                         {view === 'dashboard' && (
                             <div className="space-y-8 animate-fade-in">
                                 <div className="bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-xl border border-slate-100 text-center relative overflow-hidden">
-                                    <h2 className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">สถานะรถ EMERGENCY ตึกพิเศษปาริฉัตร</h2>
+                                    <h2 className="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">สถานะรถ EMERGENCY หอสงฆ์อาพาธ</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                                         <div>
                                             <div className={`text-4xl sm:text-6xl font-black tracking-tighter ${records[0]?.generalReady === 'พร้อมใช้' ? 'text-emerald-600' : 'text-red-500'}`}>{records[0]?.generalReady || 'รอดำเนินการ'}</div>
                                             <div className="text-[10px] text-slate-300 mt-2 font-black uppercase tracking-widest">อัปเดตล่าสุด: {records.length > 0 ? formatDate(records[0].date) : '-'}</div>
                                         </div>
                                         
-                                        {/* แก้ไขส่วนนี้: เปลี่ยนสีและข้อความตามสถานะ Overdue */}
                                         <div className={`px-6 py-6 rounded-3xl border-2 shadow-inner flex flex-col items-center justify-center transition-colors ${recheckData.isOverdue ? 'bg-red-50 border-red-200' : 'bg-teal-50 border-teal-100'}`}>
                                             <div className="flex items-center gap-3 mb-1">
                                                 <SimpleIcon name="RotateCcw" className={`w-5 h-5 ${recheckData.isOverdue ? 'text-red-600' : 'text-teal-600'} animate-pulse`}/>
@@ -539,18 +578,18 @@
                                                 {recheckData.date ? formatDate(recheckData.date) : '-'}
                                             </div>
                                             <div className={`text-[9px] font-bold uppercase mt-1 opacity-70 ${recheckData.isOverdue ? 'text-red-500' : 'text-teal-500'}`}>
-                                                {recheckData.isOverdue ? `(ต้องตรวจสอบสต๊อกใหญ่ด่วน)` : 'ทุก 14 วัน (ตึกพิเศษปาริฉัตร)'}
+                                                {recheckData.isOverdue ? `(ต้องตรวจสอบสต๊อกใหญ่ด่วน)` : 'ทุก 14 วัน (หอสงฆ์อาพาธ)'}
                                             </div>
                                         </div>
                                     </div>
 
                                     {criticalIssues.length > 0 && (
-                                        <div className="mt-8 space-y-2 text-left">
+                                        <div className="mt-8 space-y-2 text-left animate-slide-up">
                                             <div className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] mb-2 px-2 flex items-center gap-2">
                                                 <SimpleIcon name="AlertTriangle" className="w-3.5 h-3.5"/> รายการที่ต้องตรวจสอบเร่งด่วน
                                             </div>
                                             {criticalIssues.map((issue, idx) => (
-                                                <div key={idx} className={`p-3 rounded-2xl border flex items-center gap-3 animate-slide-up shadow-sm
+                                                <div key={idx} className={`p-3 rounded-2xl border flex items-center gap-3 shadow-sm
                                                     ${issue.severity === 'critical' ? 'bg-red-600 text-white border-red-700' : 
                                                       issue.severity === 'high' ? 'bg-orange-500 text-white border-orange-600' : 
                                                       issue.severity === 'medium' ? 'bg-amber-100 text-amber-900 border-amber-200' : 
@@ -563,7 +602,7 @@
                                     )}
 
                                     <div className="mt-10 flex justify-center">
-                                        <button onClick={() => { if(criticalIssues.length > 0) setShowCriticalAlert(true); else setShowTypeModal(true); }} className="w-full sm:w-auto sm:min-w-[300px] bg-slate-900 text-white py-5 px-10 rounded-3xl shadow-2xl flex items-center justify-center gap-3 text-lg font-black active:scale-95 transition-all hover:bg-slate-800">
+                                        <button onClick={handleStartCheck} className="w-full sm:w-auto sm:min-w-[300px] bg-slate-900 text-white py-5 px-10 rounded-3xl shadow-2xl flex items-center justify-center gap-3 text-lg font-black active:scale-95 transition-all hover:bg-slate-800">
                                             <SimpleIcon name="Plus" className="w-5 h-5"/> เริ่มตรวจสอบรถ
                                         </button>
                                     </div>
@@ -581,8 +620,8 @@
                                 <div className="flex justify-between mb-5 items-center"><button onClick={() => setView('dashboard')} className="text-slate-500 bg-white px-4 py-2.5 rounded-2xl border border-slate-200 shadow-sm font-black text-[10px] uppercase transition-colors hover:bg-slate-50">ยกเลิก</button></div>
                                 <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden mb-8">
                                     <div className="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-slate-50/50 border-b border-slate-100">
-                                        <div><label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">วันที่ตรวจ</label><input type="date" className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-sm" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})}/></div>
-                                        <div><label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">เวร</label><select className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-sm" value={formData.shift} onChange={e => setFormData({...formData, shift: e.target.value})}><option>เช้า</option><option>บ่าย</option><option>ดึก</option></select></div>
+                                        <div><label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">วันที่ตรวจ</label><input type="date" className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-sm focus:ring-2 focus:ring-teal-500 outline-none" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})}/></div>
+                                        <div><label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-widest">เวร</label><select className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-sm focus:ring-2 focus:ring-teal-500 outline-none" value={formData.shift} onChange={e => setFormData({...formData, shift: e.target.value})}><option>เช้า</option><option>บ่าย</option><option>ดึก</option></select></div>
                                     </div>
                                     {CATEGORY_ORDER.map(cat => (
                                         <div key={cat} className="border-t border-slate-100">
@@ -594,15 +633,15 @@
                                                             <div className="flex-1 font-bold text-slate-800 text-sm tracking-tight">{item.name}</div>
                                                             <div className="flex p-0.5 bg-slate-100 rounded-xl">
                                                                 {item.type === ITEM_TYPES.CHECK_HAVE ? (
-                                                                    <><button onClick={() => setFormData(p=>({...p,items:{...p.items,[item.id]:{...p.items[item.id],checked:true}}}))} className={`px-4 py-1.5 rounded-lg text-[10px] font-black ${formData.items[item.id]?.checked===true?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>มี</button><button onClick={() => setFormData(p=>({...p,items:{...p.items,[item.id]:{...p.items[item.id],checked:false}}}))} className={`px-4 py-1.5 rounded-lg text-[10px] font-black ${formData.items[item.id]?.checked===false?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่มี</button></>
+                                                                    <><button onClick={() => updateItem(item.id, 'checked', true)} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.checked===true?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>มี</button><button onClick={() => updateItem(item.id, 'checked', false)} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.checked===false?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่มี</button></>
                                                                 ) : (
-                                                                    <><button onClick={() => setFormData(p=>({...p,items:{...p.items,[item.id]:{...p.items[item.id],status:'ready'}}}))} className={`px-4 py-1.5 rounded-lg text-[10px] font-black ${formData.items[item.id]?.status==='ready'?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>พร้อม</button><button onClick={() => setFormData(p=>({...p,items:{...p.items,[item.id]:{...p.items[item.id],status:'not_ready'}}}))} className={`px-4 py-1.5 rounded-lg text-[10px] font-black ${formData.items[item.id]?.status==='not_ready'?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่พร้อม</button></>
+                                                                    <><button onClick={() => updateItem(item.id, 'status', 'ready')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.status==='ready'?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>พร้อม</button><button onClick={() => updateItem(item.id, 'status', 'not_ready')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.status==='not_ready'?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่พร้อม</button></>
                                                                 )}
                                                             </div>
                                                         </div>
                                                         <div className="grid grid-cols-2 gap-3">
-                                                            {item.type.includes('qty') && <input type="number" placeholder="จำนวน" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={formData.items[item.id]?.qty||''} onChange={e=>setFormData(p=>({...p,items:{...p.items,[item.id]:{...p.items[item.id],qty:e.target.value}}}))}/>}
-                                                            {item.type.includes('exp') && <input type="date" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={formData.items[item.id]?.exp||''} onChange={e=>setFormData(p=>({...p,items:{...p.items,[item.id]:{...p.items[item.id],exp:e.target.value}}}))}/>}
+                                                            {item.type.includes('qty') && <input type="number" placeholder="จำนวน" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={formData.items[item.id]?.qty||''} onChange={e=>updateItem(item.id, 'qty', e.target.value)}/>}
+                                                            {item.type.includes('exp') && <input type="date" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={formData.items[item.id]?.exp||''} onChange={e=>updateItem(item.id, 'exp', e.target.value)}/>}
                                                         </div>
                                                     </div>
                                                 ))}
@@ -613,7 +652,7 @@
                                         <div className="p-6 bg-white border border-blue-100 rounded-2xl mb-6 shadow-sm flex items-center gap-4 cursor-pointer" onClick={() => setFormData({...formData, isRecheckStock: !formData.isRecheckStock})}>
                                             <input type="checkbox" className="w-6 h-6 accent-blue-600 rounded-lg cursor-pointer" checked={formData.isRecheckStock || false} readOnly/><div className="font-black text-slate-800 text-sm">บันทึกเป็น ReCheck Stock (ใหญ่)</div>
                                         </div>
-                                        <input type="text" placeholder="ระบุชื่อผู้ตรวจสอบ" className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-black shadow-md focus:ring-2 focus:ring-teal-500" value={formData.checker || ''} onChange={e => { setFormData({...formData, checker: e.target.value}); localStorage.setItem('last_checker_name', e.target.value); }}/>
+                                        <input type="text" placeholder="ระบุชื่อผู้ตรวจสอบ" className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-black shadow-md focus:ring-2 focus:ring-teal-500 outline-none" value={formData.checker || ''} onChange={e => { setFormData({...formData, checker: e.target.value}); localStorage.setItem('last_checker_name', e.target.value); }}/>
                                     </div>
                                 </div>
                                 <button onClick={onSaveClick} className="w-full bg-slate-900 text-white font-black py-5 px-12 rounded-3xl shadow-2xl text-lg active:scale-95 transition-all flex items-center justify-center gap-3 hover:bg-slate-800">
@@ -624,13 +663,14 @@
                     </main>
 
                     {/* --- POP-UPS --- */}
-                    <Modal isOpen={showCriticalAlert} title="⚠️ ตรวจพบเวชภัณฑ์ใกล้หมดอายุ/เลยกำหนด" onClose={() => setShowCriticalAlert(false)}>
+                    <Modal isOpen={showCriticalAlert} title="⚠️ แจ้งเตือนเร่งด่วน" onClose={() => setShowCriticalAlert(false)}>
                         <div className="space-y-3 mb-8">
                             {criticalIssues.map((issue, idx) => (
                                 <div key={idx} className={`p-4 rounded-2xl border flex items-start gap-4 shadow-sm animate-scale-up
                                     ${issue.severity === 'critical' ? 'bg-red-50 border-red-200 text-red-900' : 
                                       issue.severity === 'high' ? 'bg-orange-50 border-orange-200 text-orange-900' : 
-                                      'bg-amber-50 border-amber-200 text-amber-900'}`}>
+                                      issue.severity === 'medium' ? 'bg-amber-50 border-amber-200 text-amber-900' :
+                                      'bg-yellow-50 border-yellow-200 text-yellow-900'}`}>
                                     <SimpleIcon name="AlertTriangle" className={`w-5 h-5 mt-0.5 shrink-0 ${issue.severity === 'critical' ? 'text-red-600' : 'text-orange-500'}`}/>
                                     <p className="text-[13px] font-black uppercase tracking-tight leading-snug">{issue.message}</p>
                                 </div>
@@ -642,22 +682,22 @@
                         </div>
                     </Modal>
 
-                    <Modal isOpen={showTypeModal} title="เริ่มการตรวจสอบ - ปาริฉัตร" onClose={() => setShowTypeModal(false)}>
+                    <Modal isOpen={showTypeModal} title="เริ่มการตรวจสอบ - หอสงฆ์อาพาธ" onClose={() => setShowTypeModal(false)}>
                         <div className="grid grid-cols-1 gap-4">
-                            <button onClick={() => { setShowTypeModal(false); initForm(null, true); setView('form'); }} className="p-6 bg-teal-50 rounded-[2rem] text-left border border-teal-100 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group"><div className="font-black text-teal-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="Plus" className="w-5 h-5"/> ตรวจสอบใหม่ (New Check)</div></button>
-                            <button onClick={() => { setShowTypeModal(false); if(records.length > 0) { initForm(records[0], false); setShowCopyWarning(true); } else { initForm(null, true); setView('form'); } }} className="p-6 bg-white rounded-[2rem] text-left border border-slate-200 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group"><div className="font-black text-slate-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="History" className="w-5 h-5"/> ดึงข้อมูลล่าสุด (Copy Latest)</div></button>
+                            <button onClick={() => { setShowTypeModal(false); initForm(null, true); setView('form'); }} className="p-6 bg-teal-50 rounded-[2rem] text-left border border-teal-100 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group">
+                                <div className="font-black text-teal-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="Plus" className="w-5 h-5"/> ตรวจสอบใหม่ (New Check)</div>
+                            </button>
+                            <button onClick={() => { setShowTypeModal(false); if(records.length > 0) { initForm(records[0], false); setShowCopyWarning(true); } else { initForm(null, true); setView('form'); } }} className="p-6 bg-white rounded-[2rem] text-left border border-slate-200 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group">
+                                <div className="font-black text-slate-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="History" className="w-5 h-5"/> ดึงข้อมูลล่าสุด (Copy Latest)</div>
+                            </button>
                         </div>
                     </Modal>
 
-                    <Modal isOpen={showCopyWarning} title="🚨 ข้อควรระวัง กรุณาตรวจสอบดังนี้" onClose={() => setShowCopyWarning(false)}>
-                        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-200 mb-8 shadow-inner">
-                            <ul className="space-y-4 text-[12px] font-black text-yellow-900 leading-tight">
-                                <li className="flex gap-4"><div className="bg-yellow-200 w-6 h-6 rounded-full flex items-center justify-center shrink-0">1</div> Sticker Visual Control ต้องอยู่ในสภาพสมบูรณ์ ไม่มีการเปิดทิ้งไว้</li>
-                                <li className="flex gap-4"><div className="bg-yellow-200 w-6 h-6 rounded-full flex items-center justify-center shrink-0">2</div> ตรวจสอบวันหมดอายุยา (CPR/ACS Box) ใหม่อีกครั้งเสมอ</li>
-                                <li className="flex gap-4"><div className="bg-yellow-200 w-6 h-6 rounded-full flex items-center justify-center shrink-0">3</div> อุปกรณ์ส่องสว่าง (ไฟฉาย/Laryngoscope) ต้องพร้อมทำงาน</li>
-                            </ul>
+                    <Modal isOpen={showCopyWarning} title="🚨 กรุณาตรวจสอบความพร้อมต่อไปนี้" onClose={() => setShowCopyWarning(false)}>
+                        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-200 mb-8 text-[12px] font-black text-yellow-900 leading-tight">
+                            ตรวจสอบ Sticker Visual Control และวันหมดอายุยา (CPR/ACS Box) ใหม่อย่างละเอียดทุกครั้งก่อนบันทึก อุปกรณ์ส่องสว่างต้องพร้อมทำงาน
                         </div>
-                        <button onClick={() => {setShowCopyWarning(false); setView('form');}} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm shadow-2xl active:scale-95 transition-all">ยืนยันข้อมูลและเริ่มตรวจ</button>
+                        <button onClick={() => {setShowCopyWarning(false); setView('form');}} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm active:scale-95 transition-all shadow-xl">ยืนยันข้อมูลและเริ่มตรวจ</button>
                     </Modal>
 
                     <Modal isOpen={showSaveSuccessModal} title="✅ บันทึกสำเร็จ" onClose={() => {setShowSaveSuccessModal(false); setView('dashboard');}}><div className="text-center py-5"><div className="text-emerald-500 mb-6 flex justify-center"><div className="p-6 bg-emerald-50 rounded-full shadow-inner animate-scale-up"><SimpleIcon name="CheckCircle" className="w-14 h-14"/></div></div><h3 className="font-black text-2xl mb-2 text-slate-800 tracking-tighter">ส่งข้อมูลเรียบร้อยแล้ว</h3><button onClick={() => {setShowSaveSuccessModal(false); setView('dashboard');}} className="w-full bg-slate-900 text-white py-4.5 rounded-2xl font-black text-sm active:scale-95 mt-8 shadow-xl transition-all">กลับสู่หน้าหลัก</button></div></Modal>
