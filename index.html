@@ -53,7 +53,7 @@
             display: flex; align-items: center; justify-content: center; margin-top: 2px; position: relative;
         }
         @media (min-width: 768px) { .shift-dot { height: 22px; font-size: 10px; } }
-        .recheck-star { position: absolute; top: -1px; right: 0px; font-size: 10px; color: #fbbf24; filter: drop-shadow(0 0 1px rgba(0,0,0,0.5)); }
+        .recheck-star { position: absolute; top: -1px; right: 0px; font-size: 7px; color: #fbbf24; filter: drop-shadow(0 0 1px rgba(0,0,0,0.5)); }
     </style>
 </head>
 <body class="bg-[#F0F4F9] text-slate-800 min-h-screen"> 
@@ -112,7 +112,8 @@
             Edit: <><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></>,
             Settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></>,
             AlertTriangle: <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01" />,
-            Save: <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8" />
+            Save: <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8" />,
+            MessageSquare: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         };
 
         const SimpleIcon = ({ name, className = "w-6 h-6", color = "currentColor" }) => (
@@ -178,9 +179,12 @@
                                                     const val = rec.items?.[item.id] || {};
                                                     const ready = item.type === ITEM_TYPES.CHECK_HAVE ? val.checked : val.status === 'ready';
                                                     return (
-                                                        <div key={item.id} className="flex items-start justify-between gap-2 p-2 bg-white rounded-xl border border-white shadow-sm">
-                                                            <div className="text-[11px] font-bold text-slate-700">{item.name} {val.qty ? `(${val.qty})` : ''}</div>
-                                                            <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${ready ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50'}`}>{ready ? 'พร้อม' : 'ไม่พร้อม'}</span>
+                                                        <div key={item.id} className="flex flex-col gap-1 p-2 bg-white rounded-xl border border-white shadow-sm">
+                                                            <div className="flex items-start justify-between gap-2">
+                                                                <div className="text-[11px] font-bold text-slate-700">{item.name} {val.qty ? `(${val.qty})` : ''}</div>
+                                                                <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${ready ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50'}`}>{ready ? 'พร้อม' : 'ไม่พร้อม'}</span>
+                                                            </div>
+                                                            {val.note && <div className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-100 mt-1 flex items-center gap-1.5"><SimpleIcon name="MessageSquare" className="w-2.5 h-2.5"/> {val.note}</div>}
                                                         </div>
                                                     );
                                                 })}
@@ -189,6 +193,12 @@
                                     );
                                 })}
                              </div>
+                             {rec.generalNote && (
+                                <div className="mt-4 p-4 bg-slate-900 text-white rounded-2xl">
+                                    <div className="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-widest">หมายเหตุเพิ่มเติมจากผู้ตรวจสอบ</div>
+                                    <div className="text-xs font-bold leading-relaxed">{rec.generalNote}</div>
+                                </div>
+                             )}
                         </div>
                     )}
                 </div>
@@ -235,12 +245,6 @@
                 const d = new Date(r.date);
                 return d.getMonth() === month && d.getFullYear() === year;
             }), [records, month, year]);
-
-            const monthStats = useMemo(() => {
-                if (monthRecords.length === 0) return null;
-                const ready = monthRecords.filter(r => r.generalReady === 'พร้อมใช้').length;
-                return { total: monthRecords.length, ready, percent: Math.round((ready / monthRecords.length) * 100) };
-            }, [monthRecords]);
 
             const getShiftData = (day, shiftName) => {
                 const dayRecs = monthRecords.filter(r => new Date(r.date).getDate() === day && r.shift.includes(shiftName));
@@ -361,14 +365,11 @@
             const [showCriticalAlert, setShowCriticalAlert] = useState(false);
             const [criticalIssues, setCriticalIssues] = useState([]);
 
-            useEffect(() => { 
-                loadAllData();
-            }, []);
+            useEffect(() => { loadAllData(); }, []);
 
             const loadAllData = async () => {
                 setIsLoading(true);
                 try {
-                    // 1. Fetch Config First to get updated names
                     const resConfig = await fetch(GAS_API_URL + '?action=getConfig');
                     const jsonConfig = await resConfig.json();
                     let currentItemsDef = DEFAULT_ITEMS;
@@ -377,7 +378,6 @@
                         setItemsDef(currentItemsDef);
                     }
 
-                    // 2. Fetch Records and Stock Check
                     const [resRec, resStock] = await Promise.all([
                         fetch(GAS_API_URL + '?action=read'),
                         fetch(GAS_API_URL + '?action=getLastStockCheck')
@@ -398,21 +398,11 @@
                     }
 
                     let lastDate = null;
-                    if(dataStock.status === 'success' && dataStock.date) { 
-                        lastDate = new Date(dataStock.date); 
-                        setLastStockCheck(lastDate); 
-                    }
+                    if(dataStock.status === 'success' && dataStock.date) { lastDate = new Date(dataStock.date); setLastStockCheck(lastDate); }
                     
-                    // 3. Run alert check using the latest items definition
                     checkCriticalAlerts(fetchedRecords, lastDate, currentItemsDef);
-                } catch (e) { 
-                    console.error(e); 
-                } finally { 
-                    setIsLoading(false); 
-                }
+                } catch (e) { console.error(e); } finally { setIsLoading(false); }
             };
-
-            const fetchData = loadAllData; // alias for compatibility
 
             const checkCriticalAlerts = (recs, lastStock, currentItems = itemsDef) => {
                 const issues = [];
@@ -425,17 +415,18 @@
 
                 if (recs && recs.length > 0) {
                     const latest = recs[0];
+                    if (latest.generalNote) issues.push({ severity: 'medium', message: `หมายเหตุล่าสุด: ${latest.generalNote}` });
+
                     Object.entries(latest.items || {}).forEach(([itemId, val]) => {
+                        const itemMeta = currentItems.find(i => i.id === itemId) || { name: itemId };
+                        
+                        if (val.note) issues.push({ severity: 'medium', message: `ปัญหาที่แจ้งไว้ (${itemMeta.name}): ${val.note}` });
+
                         if (val.exp) {
                             const expDate = new Date(val.exp); expDate.setHours(0,0,0,0);
                             const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
-                            
-                            // Try to find name in currentItems, otherwise default to itemId
-                            const itemMeta = currentItems.find(i => i.id === itemId) || { name: itemId };
-
                             if (diffDays < 0) issues.push({ severity: 'critical', message: `รายการ "${itemMeta.name}" หมดอายุแล้ว! (${formatDate(val.exp)})` });
                             else if (diffDays <= 3) issues.push({ severity: 'high', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก 3 วัน (${formatDate(val.exp)})` });
-                            else if (diffDays <= 5) issues.push({ severity: 'medium', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก 5 วัน (${formatDate(val.exp)})` });
                             else if (diffDays <= 7) issues.push({ severity: 'low', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก 7 วัน (${formatDate(val.exp)})` });
                         }
                     });
@@ -451,14 +442,6 @@
                 const today = new Date(); today.setHours(0,0,0,0);
                 return { date, isOverdue: today > date };
             }, [lastStockCheck]);
-
-            const fetchConfig = async () => {
-                try {
-                    const res = await fetch(GAS_API_URL + '?action=getConfig');
-                    const json = await res.json();
-                    if (json.status === 'success' && json.data) setItemsDef(json.data);
-                } catch (e) { console.error(e); }
-            };
 
             const saveRemoteConfig = async (newConfig) => {
                 setIsLoading(true);
@@ -476,7 +459,7 @@
 
             const initForm = (prevData = null, isNew = false) => {
                 const today = new Date().toISOString().split('T')[0];
-                let initialData = { date: today, shift: 'เช้า', checker: localStorage.getItem('last_checker_name') || '', items: {}, isRecheckStock: false };
+                let initialData = { date: today, shift: 'เช้า', checker: localStorage.getItem('last_checker_name') || '', items: {}, isRecheckStock: false, generalNote: '' };
                 itemsDef.forEach(item => {
                     if (prevData && prevData.items && prevData.items[item.id] && !isNew) {
                         initialData.items[item.id] = JSON.parse(JSON.stringify(prevData.items[item.id]));
@@ -484,20 +467,28 @@
                         initialData.items[item.id] = { qty: '', exp: '', status: null, note: '', checked: null };
                     }
                 });
+                if (prevData && prevData.generalNote && !isNew) initialData.generalNote = prevData.generalNote;
                 setFormData(initialData);
             };
 
+            // MODIFIED: Logic to clear note when status becomes "ready" or "checked"
             const updateItem = (id, field, value) => {
-                setFormData(prev => ({ 
-                    ...prev, 
-                    items: { 
-                        ...prev.items, 
-                        [id]: { 
-                            ...(prev.items[id] || {}), 
-                            [field]: value 
-                        } 
-                    } 
-                }));
+                setFormData(prev => {
+                    const currentItem = prev.items[id] || {};
+                    let updatedItem = { ...currentItem, [field]: value };
+                    
+                    if ((field === 'status' && value === 'ready') || (field === 'checked' && value === true)) {
+                        updatedItem.note = '';
+                    }
+                    
+                    return {
+                        ...prev,
+                        items: {
+                            ...prev.items,
+                            [id]: updatedItem
+                        }
+                    };
+                });
             };
 
             const onSaveClick = async () => {
@@ -545,42 +536,26 @@
                                         
                                         <div className={`px-6 py-6 rounded-3xl border-2 shadow-inner flex flex-col items-center justify-center transition-colors ${recheckData.isOverdue ? 'bg-red-50 border-red-200' : 'bg-teal-50 border-teal-100'}`}>
                                             <div className="flex items-center gap-3 mb-1">
-                                                <SimpleIcon name="RotateCcw" className={`w-5 h-5 ${recheckData.isOverdue ? 'text-red-600' : 'text-teal-600'} animate-pulse`}/>
-                                                <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${recheckData.isOverdue ? 'text-red-700' : 'text-teal-700'}`}>
-                                                    {recheckData.isOverdue ? 'เลยกำหนด RECHECK ใหญ่แล้ว' : 'กำหนด RECHECK ครั้งถัดไป'}
-                                                </span>
+                                                <SimpleIcon name="RotateCcw" className={`w-5 h-5 ${recheckData.isOverdue ? 'text-red-600' : 'text-teal-600'} animate-pulse`}/><span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${recheckData.isOverdue ? 'text-red-700' : 'text-teal-700'}`}>{recheckData.isOverdue ? 'เลยกำหนด RECHECK ใหญ่แล้ว' : 'กำหนด RECHECK ครั้งถัดไป'}</span>
                                             </div>
-                                            <div className={`text-2xl sm:text-3xl font-black tracking-tight ${recheckData.isOverdue ? 'text-red-900' : 'text-teal-900'}`}>
-                                                {recheckData.date ? formatDate(recheckData.date) : '-'}
-                                            </div>
-                                            <div className={`text-[9px] font-bold uppercase mt-1 opacity-70 ${recheckData.isOverdue ? 'text-red-500' : 'text-teal-500'}`}>
-                                                {recheckData.isOverdue ? `(ต้องตรวจสอบสต๊อกใหญ่ด่วน)` : 'ทุก 14 วัน (ตึกพิเศษปาริฉัตร)'}
-                                            </div>
+                                            <div className={`text-2xl sm:text-3xl font-black tracking-tight ${recheckData.isOverdue ? 'text-red-900' : 'text-teal-900'}`}>{recheckData.date ? formatDate(recheckData.date) : '-'}</div>
+                                            <div className={`text-[9px] font-bold uppercase mt-1 opacity-70 ${recheckData.isOverdue ? 'text-red-500' : 'text-teal-500'}`}>{recheckData.isOverdue ? `(ต้องตรวจสอบสต๊อกใหญ่ด่วน)` : 'ทุก 14 วัน (ตึกพิเศษปาริฉัตร)'}</div>
                                         </div>
                                     </div>
 
                                     {criticalIssues.length > 0 && (
                                         <div className="mt-8 space-y-2 text-left animate-slide-up">
-                                            <div className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] mb-2 px-2 flex items-center gap-2">
-                                                <SimpleIcon name="AlertTriangle" className="w-3.5 h-3.5"/> รายการที่ต้องตรวจสอบเร่งด่วน
-                                            </div>
+                                            <div className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] mb-2 px-2 flex items-center gap-2"><SimpleIcon name="AlertTriangle" className="w-3.5 h-3.5"/> รายการที่ต้องตรวจสอบเร่งด่วน</div>
                                             {criticalIssues.map((issue, idx) => (
-                                                <div key={idx} className={`p-3 rounded-2xl border flex items-center gap-3 shadow-sm
-                                                    ${issue.severity === 'critical' ? 'bg-red-600 text-white border-red-700' : 
-                                                      issue.severity === 'high' ? 'bg-orange-500 text-white border-orange-600' : 
-                                                      issue.severity === 'medium' ? 'bg-amber-100 text-amber-900 border-amber-200' : 
-                                                      'bg-yellow-50 text-yellow-900 border-yellow-200'}`}>
-                                                    <SimpleIcon name="AlertTriangle" className="w-4 h-4 shrink-0"/>
-                                                    <span className="text-xs font-black uppercase tracking-tight leading-none">{issue.message}</span>
+                                                <div key={idx} className={`p-3 rounded-2xl border flex items-center gap-3 shadow-sm ${issue.severity === 'critical' ? 'bg-red-600 text-white border-red-700' : issue.severity === 'high' ? 'bg-orange-500 text-white border-orange-600' : issue.severity === 'medium' ? 'bg-amber-100 text-amber-900 border-amber-200' : 'bg-yellow-50 text-yellow-900 border-yellow-200'}`}>
+                                                    <SimpleIcon name="AlertTriangle" className="w-4 h-4 shrink-0"/><span className="text-xs font-black uppercase tracking-tight leading-none">{issue.message}</span>
                                                 </div>
                                             ))}
                                         </div>
                                     )}
 
                                     <div className="mt-10 flex justify-center">
-                                        <button onClick={handleStartCheck} className="w-full sm:w-auto sm:min-w-[300px] bg-slate-900 text-white py-5 px-10 rounded-3xl shadow-2xl flex items-center justify-center gap-3 text-lg font-black active:scale-95 transition-all hover:bg-slate-800">
-                                            <SimpleIcon name="Plus" className="w-5 h-5"/> เริ่มตรวจสอบรถ
-                                        </button>
+                                        <button onClick={handleStartCheck} className="w-full sm:w-auto sm:min-w-[300px] bg-slate-900 text-white py-5 px-10 rounded-3xl shadow-2xl flex items-center justify-center gap-3 text-lg font-black active:scale-95 transition-all hover:bg-slate-800"><SimpleIcon name="Plus" className="w-5 h-5"/> เริ่มตรวจสอบรถ</button>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{Object.entries(groupedRecords).map(([month, recs]) => <MonthGroup key={month} month={month} records={recs} itemsDef={itemsDef} />)}</div>
@@ -588,7 +563,6 @@
                         )}
 
                         {view === 'calendar' && <CalendarView records={records} onBack={() => setView('dashboard')} />}
-
                         {view === 'settings' && <SettingsView itemsDef={itemsDef} setItemsDef={setItemsDef} onBack={() => setView('dashboard')} onSaveRemoteConfig={saveRemoteConfig} />}
 
                         {view === 'form' && (
@@ -603,24 +577,36 @@
                                         <div key={cat} className="border-t border-slate-100">
                                             <div className="bg-slate-50 px-6 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">{cat}</div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 px-2 bg-white">
-                                                {itemsDef.filter(i => i.category === cat).map(item => (
-                                                    <div key={item.id} className="p-5 border-b border-slate-50">
-                                                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-                                                            <div className="flex-1 font-black text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100 shadow-sm text-sm tracking-tight">{item.name}</div>
-                                                            <div className="flex p-0.5 bg-slate-100 rounded-xl">
-                                                                {item.type === ITEM_TYPES.CHECK_HAVE ? (
-                                                                    <><button onClick={() => updateItem(item.id, 'checked', true)} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.checked===true?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>มี</button><button onClick={() => updateItem(item.id, 'checked', false)} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.checked===false?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่มี</button></>
-                                                                ) : (
-                                                                    <><button onClick={() => updateItem(item.id, 'status', 'ready')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.status==='ready'?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>พร้อม</button><button onClick={() => updateItem(item.id, 'status', 'not_ready')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${formData.items[item.id]?.status==='not_ready'?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่พร้อม</button></>
-                                                                )}
+                                                {itemsDef.filter(i => i.category === cat).map(item => {
+                                                    const currentVal = formData.items[item.id] || {};
+                                                    const isNotReady = item.type === ITEM_TYPES.CHECK_HAVE ? currentVal.checked === false : currentVal.status === 'not_ready';
+                                                    return (
+                                                        <div key={item.id} className="p-5 border-b border-slate-50">
+                                                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
+                                                                <div className="flex-1 font-black text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100 shadow-sm text-sm tracking-tight">{item.name}</div>
+                                                                <div className="flex p-0.5 bg-slate-100 rounded-xl">
+                                                                    {item.type === ITEM_TYPES.CHECK_HAVE ? (
+                                                                        <><button onClick={() => updateItem(item.id, 'checked', true)} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${currentVal.checked===true?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>มี</button><button onClick={() => updateItem(item.id, 'checked', false)} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${currentVal.checked===false?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่มี</button></>
+                                                                    ) : (
+                                                                        <><button onClick={() => updateItem(item.id, 'status', 'ready')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${currentVal.status==='ready'?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>พร้อม</button><button onClick={() => updateItem(item.id, 'status', 'not_ready')} className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all ${currentVal.status==='not_ready'?'bg-white text-red-500 shadow-sm':'text-slate-400'}`}>ไม่พร้อม</button></>
+                                                                    )}
+                                                                </div>
                                                             </div>
+                                                            <div className="grid grid-cols-2 gap-3">
+                                                                {item.type.includes('qty') && <input type="number" placeholder="จำนวน" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={currentVal.qty||''} onChange={e=>updateItem(item.id, 'qty', e.target.value)}/>}
+                                                                {item.type.includes('exp') && <input type="date" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={currentVal.exp||''} onChange={e=>updateItem(item.id, 'exp', e.target.value)}/>}
+                                                            </div>
+                                                            {isNotReady && (
+                                                                <textarea 
+                                                                    className="w-full bg-red-50 border border-red-100 rounded-xl p-2 text-[11px] font-bold text-red-900 placeholder-red-300 focus:ring-1 focus:ring-red-400 outline-none animate-slide-up mt-2" 
+                                                                    placeholder="ระบุสาเหตุที่ไม่พร้อม หรือสิ่งที่ต้องแก้ไข..."
+                                                                    value={currentVal.note || ''}
+                                                                    onChange={e => updateItem(item.id, 'note', e.target.value)}
+                                                                />
+                                                            )}
                                                         </div>
-                                                        <div className="grid grid-cols-2 gap-3">
-                                                            {item.type.includes('qty') && <input type="number" placeholder="จำนวน" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={formData.items[item.id]?.qty||''} onChange={e=>updateItem(item.id, 'qty', e.target.value)}/>}
-                                                            {item.type.includes('exp') && <input type="date" className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold w-full outline-none focus:ring-2 focus:ring-teal-500" value={formData.items[item.id]?.exp||''} onChange={e=>updateItem(item.id, 'exp', e.target.value)}/>}
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                    );
+                                                })}
                                             </div>
                                         </div>
                                     ))}
@@ -628,12 +614,18 @@
                                         <div className="p-6 bg-white border border-blue-100 rounded-2xl mb-6 shadow-sm flex items-center gap-4 cursor-pointer" onClick={() => setFormData({...formData, isRecheckStock: !formData.isRecheckStock})}>
                                             <input type="checkbox" className="w-6 h-6 accent-blue-600 rounded-lg cursor-pointer" checked={formData.isRecheckStock || false} readOnly/><div className="font-black text-slate-800 text-sm">บันทึกเป็น ReCheck Stock (ใหญ่)</div>
                                         </div>
-                                        <input type="text" placeholder="ระบุชื่อผู้ตรวจสอบ" className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-black shadow-md focus:ring-2 focus:ring-teal-500 outline-none" value={formData.checker || ''} onChange={e => { setFormData({...formData, checker: e.target.value}); localStorage.setItem('last_checker_name', e.target.value); }}/>
+                                        <div className="space-y-4">
+                                            <input type="text" placeholder="ระบุชื่อผู้ตรวจสอบ" className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-black shadow-md focus:ring-2 focus:ring-teal-500 outline-none" value={formData.checker || ''} onChange={e => { setFormData({...formData, checker: e.target.value}); localStorage.setItem('last_checker_name', e.target.value); }}/>
+                                            <textarea 
+                                                placeholder="หมายเหตุเพิ่มเติมในภาพรวม (ถ้ามี)" 
+                                                className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-bold shadow-md focus:ring-2 focus:ring-teal-500 outline-none h-24"
+                                                value={formData.generalNote || ''}
+                                                onChange={e => setFormData({...formData, generalNote: e.target.value})}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                                <button onClick={onSaveClick} className="w-full bg-slate-900 text-white font-black py-5 px-12 rounded-3xl shadow-2xl text-lg active:scale-95 transition-all flex items-center justify-center gap-3 hover:bg-slate-800">
-                                    <SimpleIcon name="Save" className="w-5 h-5"/> บันทึกการตรวจสอบ
-                                </button>
+                                <button onClick={onSaveClick} className="w-full bg-slate-900 text-white font-black py-5 px-12 rounded-3xl shadow-2xl text-lg active:scale-95 transition-all flex items-center justify-center gap-3 hover:bg-slate-800"><SimpleIcon name="Save" className="w-5 h-5"/> บันทึกการตรวจสอบ</button>
                             </div>
                         )}
                     </main>
@@ -642,13 +634,8 @@
                     <Modal isOpen={showCriticalAlert} title="⚠️ แจ้งเตือนเร่งด่วน" onClose={() => setShowCriticalAlert(false)}>
                         <div className="space-y-3 mb-8">
                             {criticalIssues.map((issue, idx) => (
-                                <div key={idx} className={`p-4 rounded-2xl border flex items-start gap-4 shadow-sm animate-scale-up
-                                    ${issue.severity === 'critical' ? 'bg-red-50 border-red-200 text-red-900' : 
-                                      issue.severity === 'high' ? 'bg-orange-50 border-orange-200 text-orange-900' : 
-                                      issue.severity === 'medium' ? 'bg-amber-50 border-amber-200 text-amber-900' :
-                                      'bg-yellow-50 border-yellow-200 text-yellow-900'}`}>
-                                    <SimpleIcon name="AlertTriangle" className={`w-5 h-5 mt-0.5 shrink-0 ${issue.severity === 'critical' ? 'text-red-600' : 'text-orange-500'}`}/>
-                                    <p className="text-[13px] font-black uppercase tracking-tight leading-snug">{issue.message}</p>
+                                <div key={idx} className={`p-4 rounded-2xl border flex items-start gap-4 shadow-sm animate-scale-up ${issue.severity === 'critical' ? 'bg-red-50 border-red-200 text-red-900' : issue.severity === 'high' ? 'bg-orange-50 border-orange-200 text-orange-900' : issue.severity === 'medium' ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-yellow-50 border-yellow-200 text-yellow-900'}`}>
+                                    <SimpleIcon name="AlertTriangle" className={`w-5 h-5 mt-0.5 shrink-0 ${issue.severity === 'critical' ? 'text-red-600' : 'text-orange-500'}`}/><p className="text-[13px] font-black uppercase tracking-tight leading-snug">{issue.message}</p>
                                 </div>
                             ))}
                         </div>
@@ -660,19 +647,13 @@
 
                     <Modal isOpen={showTypeModal} title="เริ่มการตรวจสอบ - ปาริฉัตร" onClose={() => setShowTypeModal(false)}>
                         <div className="grid grid-cols-1 gap-4">
-                            <button onClick={() => { setShowTypeModal(false); initForm(null, true); setView('form'); }} className="p-6 bg-teal-50 rounded-[2rem] text-left border border-teal-100 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group">
-                                <div className="font-black text-teal-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="Plus" className="w-5 h-5"/> ตรวจสอบใหม่ (New Check)</div>
-                            </button>
-                            <button onClick={() => { setShowTypeModal(false); if(records.length > 0) { initForm(records[0], false); setShowCopyWarning(true); } else { initForm(null, true); setView('form'); } }} className="p-6 bg-white rounded-[2rem] text-left border border-slate-200 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group">
-                                <div className="font-black text-slate-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="History" className="w-5 h-5"/> ดึงข้อมูลล่าสุด (Copy Latest)</div>
-                            </button>
+                            <button onClick={() => { setShowTypeModal(false); initForm(null, true); setView('form'); }} className="p-6 bg-teal-50 rounded-[2rem] text-left border border-teal-100 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group"><div className="font-black text-teal-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="Plus" className="w-5 h-5"/> ตรวจสอบใหม่ (New Check)</div></button>
+                            <button onClick={() => { setShowTypeModal(false); if(records.length > 0) { initForm(records[0], false); setShowCopyWarning(true); } else { initForm(null, true); setView('form'); } }} className="p-6 bg-white rounded-[2rem] text-left border border-slate-200 transition-all hover:scale-[1.03] active:scale-95 shadow-sm group"><div className="font-black text-slate-900 text-lg flex items-center gap-2 tracking-tight"><SimpleIcon name="History" className="w-5 h-5"/> ดึงข้อมูลล่าสุด (Copy Latest)</div></button>
                         </div>
                     </Modal>
 
                     <Modal isOpen={showCopyWarning} title="🚨 กรุณาตรวจสอบความพร้อม" onClose={() => setShowCopyWarning(false)}>
-                        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-200 mb-8 text-[12px] font-black text-yellow-900 leading-tight">
-                            ตรวจสอบ Sticker Visual Control และวันหมดอายุยา (CPR/ACS Box) ใหม่อย่างละเอียดทุกครั้งก่อนบันทึก
-                        </div>
+                        <div className="bg-yellow-50 p-6 rounded-3xl border border-yellow-200 mb-8 text-[12px] font-black text-yellow-900 leading-tight">ตรวจสอบ Sticker Visual Control และวันหมดอายุยา (CPR/ACS Box) ใหม่อย่างละเอียดทุกครั้งก่อนบันทึก</div>
                         <button onClick={() => {setShowCopyWarning(false); setView('form');}} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm active:scale-95 transition-all shadow-xl">ยืนยันข้อมูลและเริ่มตรวจ</button>
                     </Modal>
 
