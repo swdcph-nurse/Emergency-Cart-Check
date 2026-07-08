@@ -422,13 +422,30 @@
                         
                         if (val.note) issues.push({ severity: 'medium', message: `ปัญหาที่แจ้งไว้ (${itemMeta.name}): ${val.note}` });
 
-                        if (val.exp) {
-                            const expDate = new Date(val.exp); expDate.setHours(0,0,0,0);
-                            const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
-                            if (diffDays < 0) issues.push({ severity: 'critical', message: `รายการ "${itemMeta.name}" หมดอายุแล้ว! (${formatDate(val.exp)})` });
-                            else if (diffDays <= 3) issues.push({ severity: 'high', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก 3 วัน (${formatDate(val.exp)})` });
-                            else if (diffDays <= 7) issues.push({ severity: 'low', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก 7 วัน (${formatDate(val.exp)})` });
-                        }
+                        // Check Expiry
+                            if (val.exp) {
+                                // 1. กำหนด Today ด้วยวันปัจจุบัน (new Date()) และรีเซ็ตเวลาเป็นเที่ยงคืนให้ตรงกัน
+                                const today = new Date();
+                                today.setHours(0, 0, 0, 0);
+                            
+                                // รีเซ็ตเวลาเที่ยงคืนให้วันหมดอายุเช่นกัน
+                                const expDate = new Date(val.exp);
+                                expDate.setHours(0, 0, 0, 0);
+                            
+                                // 2. คำนวณ Remaining Days
+                                const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+                            
+                                // 3. เพิ่มเงื่อนไข (Condition) และใช้ Template Literal (${diffDays}) เพื่อให้แสดงตัวเลขจริง
+                                if (diffDays < 0) {
+                                    issues.push({ severity: 'critical', message: `รายการ "${itemMeta.name}" หมดอายุแล้ว! (${formatDate(val.exp)})` });
+                                } else if (diffDays === 0) {
+                                    issues.push({ severity: 'critical', message: `รายการ "${itemMeta.name}" หมดอายุวันนี้! (${formatDate(val.exp)})` });
+                                } else if (diffDays <= 3) {
+                                    issues.push({ severity: 'high', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก ${diffDays} วัน (${formatDate(val.exp)})` });
+                                } else if (diffDays <= 7) {
+                                    issues.push({ severity: 'low', message: `รายการ "${itemMeta.name}" จะหมดอายุในอีก ${diffDays} วัน (${formatDate(val.exp)})` });
+                                }
+                            }
                     });
                 }
                 
